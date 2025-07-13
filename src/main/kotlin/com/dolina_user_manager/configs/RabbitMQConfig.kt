@@ -13,9 +13,17 @@ class RabbitMQConfig {
     @Value("\${broker.queue.email.name}")
     lateinit var queueName: String
 
+    @Value("\${broker.queue.delete.email.name}")
+    lateinit var deleteUserQueue: String
+
     @Bean
     fun queue(): Queue {
         return Queue(queueName, true)
+    }
+
+    @Bean
+    fun deleteEmailQueue(): Queue {
+        return Queue(deleteUserQueue, true)
     }
 
     @Bean

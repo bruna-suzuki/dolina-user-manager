@@ -28,4 +28,8 @@ class UserService(
 
         userProducer.publishDeleteMessage(deleteUser)
     }
+
+    fun getAllUsers(): List<UserModel> {
+        return userRepository.findAll()
+    }
 }

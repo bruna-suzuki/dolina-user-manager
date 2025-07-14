@@ -6,6 +6,7 @@ import com.dolina_user_manager.services.UserService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -27,5 +28,11 @@ class UserController(private val userService: UserService) {
     fun deleteUser(@PathVariable id: UUID): ResponseEntity<String> {
         userService.deleteUser(id)
         return ResponseEntity.status(HttpStatus.OK).body("User has been deleted.")
+    }
+
+    @GetMapping
+    fun getAllUsers(): ResponseEntity<List<UserModel>> {
+        val users = userService.getAllUsers()
+        return ResponseEntity.status(HttpStatus.OK).body(users)
     }
 }

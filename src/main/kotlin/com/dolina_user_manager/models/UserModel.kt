@@ -14,6 +14,8 @@ data class UserModel(
     @Id
     val id: UUID = UUID.randomUUID(),
 
+    val globalUserId: UUID = UUID.randomUUID(),
+
     val fullName: String,
 
     val address: String,

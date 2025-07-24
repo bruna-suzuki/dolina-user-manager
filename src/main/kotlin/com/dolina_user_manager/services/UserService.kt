@@ -1,11 +1,11 @@
 package com.dolina_user_manager.services
 
 import com.dolina_user_manager.dtos.UserDto
-import com.dolina_user_manager.mappers.toUserModel
 import com.dolina_user_manager.models.UserModel
 import com.dolina_user_manager.producers.UserProducer
 import com.dolina_user_manager.repositories.UserRepository
 import org.springframework.stereotype.Service
+import java.math.BigDecimal
 import java.util.UUID
 
 @Service
@@ -14,7 +14,12 @@ class UserService(
     private val userProducer: UserProducer) {
 
     fun createUser(payload: UserDto): UserModel {
-        val newUser = payload.toUserModel()
+        val newUser = UserModel(
+            fullName = payload.fullName,
+            email = payload.email,
+            address = payload.address,
+            phoneNumber = payload.phoneNumber
+        )
         userProducer.publishMessage(newUser)
         userRepository.save(newUser)
         return newUser
@@ -31,5 +36,18 @@ class UserService(
 
     fun getAllUsers(): List<UserModel> {
         return userRepository.findAll()
+    }
+
+    fun findByGlobalId(globalUserId: UUID): UserModel? {
+        return userRepository.findByGlobalUserId(globalUserId)
+    }
+
+    fun validateBalance(amount: BigDecimal, globalUserId: UUID): Boolean {
+        val user = userRepository.findByGlobalUserId(globalUserId)
+        if (user!!.balance!!.compareTo(amount) >= 0) {
+            return true
+        } else {
+            return false
+        }
     }
 }

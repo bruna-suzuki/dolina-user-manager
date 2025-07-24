@@ -25,5 +25,5 @@ data class UserModel(
     @Column(unique = true)
     val email: String,
 
-    val balance: BigDecimal? = null,
+    val balance: BigDecimal = BigDecimal.valueOf(1000),
 )

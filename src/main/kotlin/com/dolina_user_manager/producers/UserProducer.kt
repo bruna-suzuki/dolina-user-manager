@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component
 class UserProducer(private val rabbitTemplate: RabbitTemplate) {
 
     @Value("\${broker.queue.email.name}")
-    lateinit var queueName: String
+    lateinit var queueName: String //default.email
 
     @Value("\${broker.queue.delete.email.name}")
     lateinit var deleteUserQueue: String

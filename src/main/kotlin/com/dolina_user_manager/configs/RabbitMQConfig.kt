@@ -1,6 +1,7 @@
 package com.dolina_user_manager.configs
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.springframework.amqp.core.Queue
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter
 import org.springframework.beans.factory.annotation.Value
@@ -11,14 +12,14 @@ import org.springframework.context.annotation.Configuration
 class RabbitMQConfig {
 
     @Value("\${broker.queue.email.name}")
-    lateinit var queueName: String
+    lateinit var emailQueue: String
 
     @Value("\${broker.queue.delete.email.name}")
     lateinit var deleteUserQueue: String
 
     @Bean
     fun queue(): Queue {
-        return Queue(queueName, true)
+        return Queue(emailQueue, true)
     }
 
     @Bean
@@ -28,7 +29,7 @@ class RabbitMQConfig {
 
     @Bean
     fun convertMessage(): Jackson2JsonMessageConverter {
-        val objectMapper = ObjectMapper()
+        val objectMapper = jacksonObjectMapper()
         return Jackson2JsonMessageConverter(objectMapper)
     }
 }

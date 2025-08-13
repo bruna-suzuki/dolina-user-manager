@@ -1,20 +1,20 @@
 package com.dolina_user_manager.services
 
-import com.dolina_user_manager.dtos.requests.RequestValidateUserDto
-import com.dolina_user_manager.dtos.responses.ResponseValidateUserDto
+import com.dolina_user_manager.dtos.requests.RequestUserValidatorDto
+import com.dolina_user_manager.dtos.responses.ResponseUserValidatorDto
 import org.springframework.stereotype.Service
 
 @Service
 class PurchaseService(private val userService: UserService) {
 
-    fun validateUser(payload: RequestValidateUserDto): ResponseValidateUserDto {
+    fun validatePurchase(payload: RequestUserValidatorDto): ResponseUserValidatorDto {
         val user = userService.findByGlobalId(payload.globalUserId) ?: throw Exception("User doesn't exist.")
-        val response = ResponseValidateUserDto(
+        val response = ResponseUserValidatorDto(
             userName = user.fullName,
-            userAddress = user.address,
-            userEmail = user.email
+            address = user.address,
+            email = user.email
         )
-        val validateBalance = userService.validateBalance(payload.itemPrice, payload.globalUserId)
+        val validateBalance = userService.validateBalance(payload.amount, payload.globalUserId)
         if (validateBalance){
             return response
         } else {

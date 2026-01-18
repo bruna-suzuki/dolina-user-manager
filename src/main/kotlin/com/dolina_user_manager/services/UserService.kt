@@ -41,20 +41,6 @@ class UserService(
         return userRepository.findAll()
     }
 
-    fun validatePurchase(payload: RequestUserValidatorDto): ResponseUserValidatorDto {
-        val user = findByGlobalId(payload.globalUserId) ?: throw Exception("User not found.")
-        val balance = validateBalance(payload.amount, payload.globalUserId)
-        if (balance) {
-            val response = ResponseUserValidatorDto(
-                userName = user.fullName,
-                address = user.address,
-                email = user.email)
-            return response
-        } else {
-            throw Exception("Insufficient balance.")
-        }
-    }
-
     fun findByGlobalId(globalUserId: UUID): UserModel? {
         return userRepository.findByGlobalUserId(globalUserId)
     }
